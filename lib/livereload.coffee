@@ -114,7 +114,7 @@ class Server extends EventEmitter
   onClose: (socket) ->
     @debug "Socket closed."
 
-  watch: (paths) ->
+  watch: (paths, callback) ->
     @debug "Watching #{paths}..."
     @watcher = chokidar.watch(paths,
       ignoreInitial: true
@@ -122,7 +122,7 @@ class Server extends EventEmitter
       usePolling: @config.usePolling
     )
     .on 'add', @filterRefresh.bind(@)
-    .on 'change', @filterRefresh.bind(@)
+    .on 'change', @filterRefresh.bind(@) && callback && callback()
     .on 'unlink', @filterRefresh.bind(@)
 
   filterRefresh: (filepath) ->
