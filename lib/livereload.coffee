@@ -122,7 +122,7 @@ class Server extends EventEmitter
       usePolling: @config.usePolling
     )
     .on 'add', @filterRefresh.bind(@)
-    .on 'change', @filterRefresh.bind(@) && callback && callback()
+    .on 'change', @filterRefresh.bind(@) && callback && callback.bind(@)
     .on 'unlink', @filterRefresh.bind(@)
 
   filterRefresh: (filepath) ->
